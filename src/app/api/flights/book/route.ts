@@ -1,10 +1,8 @@
 // src/app/api/flights/book/route.ts
 import { NextRequest } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import Stripe from 'stripe';
 
 const prisma = new PrismaClient();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
 const duffel = process.env.DUFFEL_API_KEY!;
 
 export async function POST(req: NextRequest) {
@@ -45,23 +43,4 @@ export async function POST(req: NextRequest) {
       }
     }
   });
-
-  // Step 4: Create Stripe session
-  const session = await stripe.checkout.sessions時間の.create({
-    payment_method_types: ['card'],
-    line_items: [{
-      price_data: {
-        currency: offer.data.total_currency.toLowerCase(),
-        product_data: { name: `Flight Booking - ${offer.data.owner.name}` },
-        unit_amount: Math.round(parseFloat(offer.data.total_amount) * 100),
-      },
-      quantity: 1,
-    }],
-    mode: 'payment',
-    success_url: `${process.env.NEXT_PUBLIC_URL}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_URL}/flights`,
-    metadata: { bookingId: booking.id }
-  });
-
-  return Response.json({ sessionId: session.id });
 }

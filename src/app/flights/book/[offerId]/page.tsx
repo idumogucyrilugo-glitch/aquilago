@@ -1,11 +1,10 @@
-// src/app/flights/book/[offerId]/page.tsx
 import Link from 'next/link';
 
-type Props = {
+export default async function BookFlight({
+  params,
+}: {
   params: { offerId: string };
-};
-
-export default function BookFlight({ params }: Props) {
+}) {
   const { offerId } = params;
 
   return (
@@ -16,7 +15,10 @@ export default function BookFlight({ params }: Props) {
         </h1>
         <div className="bg-white rounded-3xl shadow-2xl p-12">
           <p className="text-2xl mb-8">
-            Flight Offer ID: <span className="font-mono text-green-600 bg-green-50 px-4 py-2 rounded-lg">{offerId}</span>
+            Flight Offer ID:{' '}
+            <span className="font-mono text-green-600 bg-green-50 px-4 py-2 rounded-lg">
+              {offerId}
+            </span>
           </p>
           <p className="text-xl text-gray-700 mb-10">
             Real passenger form + Paddle checkout coming in 60 seconds...
@@ -25,7 +27,10 @@ export default function BookFlight({ params }: Props) {
           <p className="text-3xl font-bold text-green-600">
             AquilaGo.com is now LIVE and ready for payments!
           </p>
-          <Link href="/" className="inline-block mt-10 bg-indigo-600 text-white px-8 py-4 rounded-xl text-xl font-bold hover:bg-indigo-700">
+          <Link
+            href="/"
+            className="inline-block mt-10 bg-indigo-600 text-white px-8 py-4 rounded-xl text-xl font-bold hover:bg-indigo-700"
+          >
             Back to Search
           </Link>
         </div>
